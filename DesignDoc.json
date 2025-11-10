@@ -1,0 +1,114 @@
+{
+  "project_title": "Conflict-Aware Solar Site Prioritization in India via Hybrid Transformer Segmentation and Fuzzy MCDM",
+  "publication_goal": "SCOPUS-Indexed Research Paper (Novel ML/DL Architecture + Advanced Geospatial Decision Modeling)",
+  "current_phase": "Architecture Replication and Feasibility Demo (U-Net + Basic GHI/Geospatial Analysis)",
+  "target_phase": "Novel Hybrid Framework Development and National Suitability Mapping",
+  "target_users_and_problems": {
+    "target_users": [
+      "Solar Energy Developers (Utility-Scale)",
+      "Government Policy Makers (MNRE, State Energy Departments)",
+      "Land Use Planners and Environmental NGOs",
+      "Financial Institutions/Investors (Due Diligence)"
+    ],
+    "pain_points_solved": [
+      "**Mitigating Land Use Conflicts:** Addresses the core issue of solar development occurring on high-value land (agriculture, forest). The model identifies 'low-conflict' land, preventing environmental damage and social disputes.",
+      "**Accelerated Site Selection:** Provides policy makers and developers with **up-to-date and accurate geo-spatial information**, drastically reducing the time and cost of preliminary site feasibility studies.",
+      "**Improved Model Recall:** The baseline U-Net was able to map only ~20% of installed capacity. The new architecture aims to significantly increase the detection rate and accuracy of existing sites, which is vital for effective impact assessment and conflict planning.",
+      "**Quantifiable Project Risk:** By integrating economic (Grid Proximity) and technical (Slope) factors, the model moves beyond simple solar resource potential to offer a financially weighted **Suitability Index**, improving investor confidence and due diligence."
+    ]
+  },
+  "project_requirements": {
+    "Novelty_ML_DL": "Implement a state-of-the-art Hybrid CNN-Transformer model for solar farm detection to significantly improve detection recall and IoU over the baseline U-Net model.",
+    "Novelty_Geospatial": "Integrate advanced economic and technical constraints (e.g., Grid Proximity, Slope) and social/environmental conflict layers into the decision model.",
+    "Novelty_MCDM": "Utilize a robust, objective Multi-Criteria Decision-Making (MCDM) framework (e.g., Fuzzy AHP-TOPSIS) for systematic, weighted site prioritization across India."
+  },
+  "workflow_steps": [
+    {
+      "step_id": "1.0_Data_Acquisition_and_Indexing",
+      "name": "Acquire & Process Geospatial Input Layers",
+      "deliverable": "Standardized and Pre-processed Raster Stacks for India (Aligned CRS/Resolution)",
+      "technical_stack": {
+        "libraries": ["`pystac`", "`planetary_computer`", "`rioxarray`", "`pynasapower`", "`geopandas`", "`osmnx` (for grid data)"],
+        "data_sources": [
+          "Sentinel-2 L2A (12 Bands at 10m/20m) via Planetary Computer STAC",
+          "NASA POWER API (GHI, DNI, T2M)",
+          "SRTM/ALOS PALSAR DEM (30m Resolution)",
+          "OpenStreetMap (OSM) for Road/Grid Networks",
+          "NRSC/ESA WorldCover (LULC Data)"
+        ],
+        "preprocessing_tasks": [
+          "**Slope Calculation:** Apply gradient calculation to DEM data using `rioxarray`.",
+          "**Grid Proximity:** Vectorize grid lines (OSM) and calculate nearest distance raster using `geopandas` and `rasterio.features.rasterize`.",
+          "**LULC Indexing:** Reclassify LULC categories into a **Conflict Index Raster** (e.g., Forest/Protected Area = Max Conflict; Wasteland = Min Conflict)."
+        ]
+      }
+    },
+    {
+      "step_id": "2.0_Model_Development_CV_Refinement",
+      "name": "Hybrid Transformer Segmentation (Solar Farm Detection)",
+      "deliverable": "High-Recall, High-IoU Model Checkpoint and Inference Pipeline",
+      "technical_stack": {
+        "libraries": ["`pytorch`", "`torchvision`", "`segmentation_models_pytorch` (SMP)", "`numpy`", "`rasterio`"],
+        "model_architecture": "Hybrid CNN-Transformer (e.g., **Swin-Unet** or **MaxViT-Unet** with a deep backbone like ResNet-50/101)",
+        "input_features": [
+          "S2 RGB (B4, B3, B2)",
+          "S2 NIR (B8)",
+          "S2 SWIR (B11, B12)",
+          "Calculated Indices (NDVI, NDWI)"
+        ],
+        "training_strategy": [
+          "**Loss Function:** Compound Loss (Weighted Binary Cross-Entropy + Dice Loss / Jaccard Loss) to handle class imbalance.",
+          "**Optimization:** AdamW optimizer with Cosine Annealing Learning Rate Scheduler.",
+          "**Hard Negative Mining (HNM):** Multi-stage bootstrapping where false positive predictions from initial model runs are added as hard negatives to the training set for fine-tuning."
+        ],
+        "post_processing": [
+          "Polygonization using `skimage.measure.find_contours` (as in `Inference_Demo_final.ipynb`).",
+          "Geospatial filtering using `NDSI` (Snow), `NDWI` (Water), and `OpenStreetMap` (Roads/Buildings) to eliminate false positives."
+        ]
+      }
+    },
+    {
+      "step_id": "3.0_MCDM_Framework_Design",
+      "name": "Fuzzy AHP-TOPSIS Model Construction and Weight Derivation",
+      "deliverable": "Validated Criteria Weights and Final Ranking Model",
+      "technical_stack": {
+        "libraries": ["`pandas`", "`numpy`", "`scipy`", "Custom MCDM Implementation (FAHP/TOPSIS)"],
+        "mcdm_methods": [
+          "**Fuzzy Analytic Hierarchy Process (F-AHP):** Used for objective weight determination. Utilizes Triangular Fuzzy Numbers (TFNs) to convert expert linguistic assessments into precise criteria weights, enhancing robustness.",
+          "**TOPSIS (Technique for Order Preference by Similarity to Ideal Solution):** Used for final ranking of grid cells based on distance to the ideal and negative-ideal solutions."
+        ],
+        "criteria_categories": [
+          "**Climatic:** GHI, DNI, T2M",
+          "**Technical:** Slope (max 15% constraint), Water Proximity (for cleaning)",
+          "**Economic:** Distance to HV Power Grid (Cost Proximity)",
+          "**Environmental:** LULC Conflict Index, Protected Area Proximity",
+          "**Social:** Distance to major settlements (Population Density)"
+        ],
+        "validation_loop": "Compare the F-AHP derived weights against a **correlation analysis** of the resulting suitability map's score distribution with the **real-world solar farm locations (output of Step 2.0)** to statistically validate the practical relevance of the weight set."
+      }
+    },
+    {
+      "step_id": "4.0_Final_Suitability_Mapping_and_Analysis",
+      "name": "Generate Conflict-Aware Suitability Index Map",
+      "deliverable": "Solar Site Suitability Index (SSSI) Raster Map and Policy Recommendations",
+      "technical_stack": {
+        "libraries": ["`rasterio`", "`numpy`", "`matplotlib`", "`folium` / `geemap`"],
+        "mapping_tasks": [
+          "**Normalization:** Apply custom fuzzy membership functions to standardize all 10-15 criterion layers (e.g., linear for GHI, concave for Distance to Grid, sigmoidal for Slope).",
+          "**Exclusion Mask:** Apply Boolean masks for hard constraints (water, steep slope, protected areas).",
+          "**SSSI Calculation:** Perform the weighted summation of normalized layers based on TOPSIS/F-AHP derived weights: $\text{SSSI} = \sum_{i=1}^{N} (W_i \times C_i^{\text{normalized}})$, where $W$ are the F-AHP weights and $C$ are the normalized criteria.",
+          "**Visualization:** Generate a high-resolution, interactive **Folium/Geemap** suitability map for policy makers."
+        ],
+        "output_analysis": [
+          "**Conflict Quantification:** Analyze the LULC class distribution within the top 10% SSSI land vs. existing farm locations to quantify 'successful avoidance' of conflict-prone areas.",
+          "**Missed Opportunity:** Identify high-SSSI, low-conflict geographical regions lacking existing farms for targeted development recommendations."
+        ]
+      }
+    }
+  ],
+  "patentable_concept": {
+    "concept_name": "Conflict-Calibrated Deep Learning for Renewable Site Optimization (CCDLRSO) System",
+    "technical_claim": "A novel, iterative system that utilizes the spatial distribution of assets detected by a **Hybrid CNN-Transformer Deep Learning model** (for high-fidelity ground truth) to dynamically generate and statistically validate the criteria weights within a **Fuzzy Multi-Criteria Decision-Making (F-MCDM) framework**. The loop is closed by the DL output serving as a **Real-World Correlation Metric** for the F-MCDM model's weight set, ensuring the final suitability map is calibrated to practical, historically proven feasibility factors.",
+    "novelty_justification": "This patentable approach moves beyond static AHP weights by using current, observed solar development patterns (captured by the advanced DL model) as a self-correction mechanism for the geospatial decision model."
+  }
+}
