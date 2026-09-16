@@ -1,4 +1,4 @@
-# 🚀 Conflict-Aware Solar Site Prioritization in India
+#Conflict-Aware Solar Site Prioritization in India
 
 ## **A Hybrid Deep Learning and Fuzzy MCDM Framework for SCOPUS Publication**
 
@@ -8,7 +8,7 @@
 
 -----
 
-## 💡 Project Overview & Novelty
+##Project Overview & Novelty
 
 This project moves beyond simple solar farm detection to provide a **Conflict-Aware Solar Site Suitability Index (SSSI)** for India. It addresses the critical issue of solar energy development conflicting with high-value land (agriculture and forest).
 
@@ -27,17 +27,17 @@ The core novelty is a **two-stage, tightly-coupled hybrid framework**:
 
 -----
 
-## ⚙️ Core Technical Workflow
+##Core Technical Workflow
 
 The project follows a rigorous, four-step methodical approach derived from the Design Document:
 
-### 1\. 🗺️ Data Acquisition & Geospatial Preprocessing
+### 1\.Data Acquisition & Geospatial Preprocessing
 
   * **Goal:** Collect, standardize, and feature-engineer all geospatial input layers at a uniform resolution (e.g., 10m/30m).
   * **Key Inputs:** Sentinel-2 L2A data, NASA POWER GHI/DNI, SRTM DEM, OpenStreetMap (for Grid/Roads), and LULC maps.
   * **Feature Engineering:** Raster layers are derived for key constraints: **Slope (%)** (from DEM), **Euclidean Distance to HV Grid** (from OSM), and a categorical **LULC Conflict Index**.
 
-### 2\. 🧠 Hybrid Transformer Segmentation (ML/DL Refinement)
+### 2\.Hybrid Transformer Segmentation (ML/DL Refinement)
 
   * **Goal:** Achieve best-in-class performance for solar farm detection, significantly improving recall over the baseline U-Net model.
   * **Architecture:** **Swin-Unet / MaxViT-Unet** with a deep backbone (e.g., ResNet-50) using the `PyTorch` and `segmentation_models_pytorch` framework.
