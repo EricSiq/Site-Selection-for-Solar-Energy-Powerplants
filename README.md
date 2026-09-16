@@ -1,4 +1,4 @@
-#Conflict-Aware Solar Site Prioritization in India
+# Conflict-Aware Solar Site Prioritization in India
 
 ## **A Hybrid Deep Learning and Fuzzy MCDM Framework for SCOPUS Publication**
 
@@ -8,7 +8,7 @@
 
 -----
 
-##Project Overview & Novelty
+## Project Overview & Novelty
 
 This project moves beyond simple solar farm detection to provide a **Conflict-Aware Solar Site Suitability Index (SSSI)** for India. It addresses the critical issue of solar energy development conflicting with high-value land (agriculture and forest).
 
@@ -27,7 +27,7 @@ The core novelty is a **two-stage, tightly-coupled hybrid framework**:
 
 -----
 
-##Core Technical Workflow
+## Core Technical Workflow
 
 The project follows a rigorous, four-step methodical approach derived from the Design Document:
 
