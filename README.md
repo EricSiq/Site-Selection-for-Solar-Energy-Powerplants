@@ -100,7 +100,7 @@ The file structure is organized logically according to the four major workflow s
 
 -----
 
-## 🔒 Patentable Approach: CCDLRSO
+## Patentable Approach: CCDLRSO
 
 The unique contribution of this project is the **Conflict-Calibrated Deep Learning for Renewable Site Optimization (CCDLRSO) System**.
 
