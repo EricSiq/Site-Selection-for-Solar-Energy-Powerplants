@@ -44,14 +44,14 @@ The project follows a rigorous, four-step methodical approach derived from the D
   * **Training:** Uses a Compound Loss (BCE + Dice/Jaccard) and a rigorous, multi-stage **Hard Negative Mining (HNM)** strategy to eliminate false positives (e.g., water, construction sites).
   * **Output:** A GeoJSON layer of all detected solar farm polygons across India for validation.
 
-### 3\. ⚖️ Fuzzy AHP-TOPSIS MCDM Framework
+### 3\. Fuzzy AHP-TOPSIS MCDM Framework
 
   * **Goal:** Systematically derive objective weights for all decision criteria and rank site alternatives.
   * **Weighting:** **Fuzzy AHP** is used to transform linguistic expert judgment into objective, numerical criteria weights ($W_i$), accounting for ambiguity.
   * **Ranking:** **TOPSIS** is applied to rank grid cells by their proximity to the **Fuzzy Positive Ideal Solution (FPIS)**.
   * **Validation Loop:** The detection output from **Step 2** is used to **statistically validate** the F-AHP weights by correlating the real-world density of farms with the predicted suitability scores. This is the **patentable core** of the methodology.
 
-### 4\. 📈 Suitability Mapping and Conflict Analysis
+### 4\. Suitability Mapping and Conflict Analysis
 
   * **Goal:** Generate the final **Solar Site Suitability Index (SSSI)** map and extract actionable policy insights.
   * **Process:** All normalized, weighted criteria are combined via the TOPSIS formula to create the final continuous SSSI raster. Hard constraints (water, protected areas, high slope) are masked.
@@ -59,7 +59,7 @@ The project follows a rigorous, four-step methodical approach derived from the D
 
 -----
 
-## 🗂️ Repository Structure
+## Repository Structure
 
 The file structure is organized logically according to the four major workflow steps, ensuring clarity and traceability for future developers and reviewers.
 
